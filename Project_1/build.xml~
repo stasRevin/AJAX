@@ -1,0 +1,16 @@
+<project default="deploy_labs">
+    <property name="xampp_home" value="/Users/stanislavrevin/.bitnami/stackman/machines/xampp/volumes/root/htdocs"/>
+    <property name="project_home" value="${user.dir}"/>
+
+    <target name="deploy_labs">
+        <copy todir="${xampp_home}">
+            <fileset dir="${project_home}/labs"/>
+        </copy>
+    </target>
+
+    <target name="deploy_project">
+        <copy todir="${xampp_home}">
+            <fileset dir="${project_home}/project"/>
+        </copy>
+    </target>
+</project>

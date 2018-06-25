@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="index.js" type="text/javascript" charset="utf-8">
+    </script>
+    <title>Project 1</title>
+  </head>
+  <body onload="test();">
+    <h1>Build Your House</h1>
+  </body>
+</html>
