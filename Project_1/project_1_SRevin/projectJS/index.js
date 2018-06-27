@@ -15,6 +15,7 @@ function test() {
     var message = "";
     var messageLocation = "";
     var currentErrors = document.getElementsByClassName("error");
+    var totalPrice = 0;
 
 
     while (currentErrors.length > 0) {
@@ -61,9 +62,10 @@ function test() {
 
     }
 
-    if (currentErrors.length == 0) {
+    if (currentErrors.length === 0) {
 
-        calculateTotalPrice(userEnteredValues);
+        totalPrice = calculateTotalPrice(userEnteredValues);
+        displayResults(totalPrice, userEnteredValues);
     }
 
 
@@ -117,6 +119,35 @@ function calculateTotalPrice(userEnteredValues) {
     console.log("total price: " + totalPrice);
 
     return totalPrice;
+
+}
+
+function displayResults(totalPrice, userEnteredValues) {
+
+    var results = userEnteredValues;
+    var labels = ["Number of stories: ", "Color: ", "Garage size (# of vehicles): ",
+                  "Exterior: ", "Square footage: ", "Total cost: "];
+    results.push(totalPrice);
+    var resultBlock = document.createElement("div");
+    var resultParagraph = "";
+    var displayText = "";
+    resultBlock.id = "resultBlock";
+    console.log("total price 2: " + totalPrice);
+
+
+    for (var index = 0; index < results.length; index += 1) {
+
+        console.log("results: " + results[index]);
+
+        displayText = document.createTextNode(labels[index] + results[index]);
+        resultParagraph = document.createElement("p");
+
+        resultParagraph.appendChild(displayText);
+        resultBlock.appendChild(resultParagraph);
+    }
+
+
+    document.body.appendChild(resultBlock);
 
 }
 
