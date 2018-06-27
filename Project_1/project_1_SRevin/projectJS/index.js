@@ -9,13 +9,13 @@ function test() {
     var messageTexts = ["number of stories", "color", "number of vehicles",
                         "type of exterior", "square footage"];
 
+    var userEnteredValues = [];
     var currentSelection = "";
     var currentValue = "";
     var message = "";
     var messageLocation = "";
     var currentErrors = document.getElementsByClassName("error");
 
-    console.log("length: " + currentErrors.length);
 
     while (currentErrors.length > 0) {
 
@@ -32,6 +32,7 @@ function test() {
         currentValue = document.getElementById(currentSelection).value;
         message = "";
         messageLocation = "";
+        userEnteredValues[index] = currentValue;
 
         if (!currentValue || currentValue === "none") {
 
@@ -49,6 +50,96 @@ function test() {
 
     }
 
-    return false;
+    var squareFootage = document.getElementById("squareFootage").value;
+
+    if (isNaN(squareFootage)) {
+
+        message = document.createTextNode("Square footage must be a number.");
+        messageLocation = document.getElementById("footageSelection");
+        h3.appendChild(message);
+        messageLocation.parentNode.insertBefore(h3, messageLocation);
+
+    }
+
+    if (currentErrors.length == 0) {
+
+        calculateTotalPrice(userEnteredValues);
+    }
+
 
 }
+
+function calculateTotalPrice(userEnteredValues) {
+
+    var numberOfStories = parseInt(userEnteredValues[0]);
+    var numberOfVehicles = parseInt(userEnteredValues[2]);
+    var exteriorMaterial = userEnteredValues[3];
+    var squareFootage = parseInt(userEnteredValues[4]);
+    var pricePerSquareFoot = 0;
+    var additionalCost = 0;
+    var totalPrice = 0;
+
+    if (numberOfStories === 2) {
+
+        pricePerSquareFoot = 135;
+
+    } else if (numberOfStories === 1) {
+
+        pricePerSquareFoot = 175;
+
+    }
+
+    if (exteriorMaterial === "wood") {
+
+        pricePerSquareFoot += 10;
+        additionalCost = 5000;
+
+    } else if (exteriorMaterial === "brick") {
+
+        pricePerSquareFoot += 10;
+        additionalCost = 8000;
+
+    } else if (exteriorMaterial === "stucco") {
+
+        additionalCost = 6000;
+
+    } else if (exteriorMaterial === "stone") {
+
+        additionalCost = 16000;
+
+    }
+
+    additionalCost += numberOfVehicles * 15000;
+
+    totalPrice = squareFootage * pricePerSquareFoot;
+    totalPrice += additionalCost;
+
+    console.log("total price: " + totalPrice);
+
+    return totalPrice;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
