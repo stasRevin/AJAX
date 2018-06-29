@@ -1,12 +1,64 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="index.js" type="text/javascript" charset="utf-8">
     </script>
     <title>Project 1</title>
   </head>
-  <body onload="test();">
-    <h1>Build Your House</h1>
+  <body>
+      <h1>Build Your House</h1>
+    <form id="houseForm">
+      <div id="storySelection">
+        <label>Select number of stories</label><br/>
+        <select id="listStories">
+          <option value="none"></option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+      </div>
+      <br/><br/>
+      <div id="colorSelection">
+        <label>Select color of the house</label><br/>
+        <select id="listColors">
+          <option value="none" selected></option>
+          <option value="red">Red</option>
+          <option value="green">Green</option>
+          <option value="grey">Grey</option>
+          <option value="brown">Brown</option>
+        </select>
+      </div>
+      <br/><br/>
+      <div id="garageSelection">
+        <label>Garage size (# of vehicles)</label><br/>
+        <select id="listVehicleNumber">
+          <option value="none" selected></option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+      <br/><br/>
+      <div id="exteriorSelection">
+        <label>Exterior material</label><br/>
+        <select id="listExteriorMaterials">
+          <option value="none" selected></option>
+          <option value="vinyl">Vinyl</option>
+          <option value="wood">Wood</option>
+          <option value="brick">Brick</option>
+          <option value="stucco">Stucco</option>
+          <option value="stone">Stone</option>
+        </select>
+      </div>
+      <br/><br/>
+      <label>Square footage</label><br/>
+      <div id="footageSelection">
+        <input type="text" id="squareFootage">
+      </div>
+      <br/>
+      <input type="button" value="Submit" onclick="test();">
+    </form>
   </body>
 </html>

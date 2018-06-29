@@ -1,4 +1,15 @@
-function test() {
+function init() {
+    "use strict";
+
+    var submitButton = document.getElementById("submitButton");
+
+    submitButton.onclick = validate;
+
+}
+
+
+function validate() {
+    "use strict";
 
     var userSelectionIds = ["listStories", "listColors", "listVehicleNumber",
                             "listExteriorMaterials", "squareFootage"];
@@ -10,68 +21,33 @@ function test() {
                         "type of exterior", "square footage"];
 
     var userEnteredValues = [];
-    var currentSelection = "";
-    var currentValue = "";
-    var message = "";
-    var messageLocation = "";
     var currentErrors = document.getElementsByClassName("error");
-    var totalPrice = 0;
+    var totalCost = 0;
 
+    removeErrors(currentErrors);
+    userEnteredValues = checkIfInputPresent(userSelectionIds, selectionTypes,
+                                            messageTexts);
+    checkIfInputIsNumber();
 
-    while (currentErrors.length > 0) {
-
-        currentErrors[0].parentNode.removeChild(currentErrors[0]);
-
-    }
-
-
-    for (var index = 0; index < userSelectionIds.length; index += 1) {
-
-        var h3 = document.createElement("h3");
-        h3.className = "error";
-        currentSelection = userSelectionIds[index];
-        currentValue = document.getElementById(currentSelection).value;
-        message = "";
-        messageLocation = "";
-        userEnteredValues[index] = currentValue;
-
-        if (!currentValue || currentValue === "none") {
-
-
-            message = document.createTextNode("You must indicate "
-                                            + messageTexts[index] + ".");
-
-            messageLocation = document.getElementById(selectionTypes[index]);
-
-            h3.appendChild(message);
-
-            messageLocation.parentNode.insertBefore(h3, messageLocation);
-
-        }
-
-    }
-
-    var squareFootage = document.getElementById("squareFootage").value;
-
-    if (isNaN(squareFootage)) {
-
-        message = document.createTextNode("Square footage must be a number.");
-        messageLocation = document.getElementById("footageSelection");
-        h3.appendChild(message);
-        messageLocation.parentNode.insertBefore(h3, messageLocation);
-
-    }
 
     if (currentErrors.length === 0) {
 
-        totalPrice = calculateTotalPrice(userEnteredValues);
-        displayResults(totalPrice, userEnteredValues);
+        totalCost = calculateTotalPrice(userEnteredValues);
+
+        if (document.getElementById("resultBlock")) {
+
+            removeResults();
+
+        }
+
+        displayResults(totalCost, userEnteredValues, userSelectionIds);
     }
 
 
 }
 
 function calculateTotalPrice(userEnteredValues) {
+    "use strict";
 
     var numberOfStories = parseInt(userEnteredValues[0]);
     var numberOfVehicles = parseInt(userEnteredValues[2]);
@@ -79,7 +55,7 @@ function calculateTotalPrice(userEnteredValues) {
     var squareFootage = parseInt(userEnteredValues[4]);
     var pricePerSquareFoot = 0;
     var additionalCost = 0;
-    var totalPrice = 0;
+    var totalCost = 0;
 
     if (numberOfStories === 2) {
 
@@ -113,26 +89,33 @@ function calculateTotalPrice(userEnteredValues) {
 
     additionalCost += numberOfVehicles * 15000;
 
-    totalPrice = squareFootage * pricePerSquareFoot;
-    totalPrice += additionalCost;
+    totalCost = squareFootage * pricePerSquareFoot;
+    totalCost += additionalCost;
 
-    console.log("total price: " + totalPrice);
+    console.log("total price: " + totalCost);
 
-    return totalPrice;
+    return totalCost;
 
 }
 
-function displayResults(totalPrice, userEnteredValues) {
+function displayResults(totalCost, userEnteredValues, userSelectionIds) {
+    "use strict";
 
     var results = userEnteredValues;
     var labels = ["Number of stories: ", "Color: ", "Garage size (# of vehicles): ",
-                  "Exterior: ", "Square footage: ", "Total cost: "];
-    results.push(totalPrice);
+                  "Exterior: ", "Square footage: ", "Total cost: $"];
+
+    var clearButton = document.createElement("button");
+    var buttonValue = document.createTextNode("Clear");
+    clearButton.appendChild(buttonValue);
+    clearButton.onclick = function() {clearContents(userSelectionIds)};
+
+    results.push(totalCost.toFixed(2));
     var resultBlock = document.createElement("div");
     var resultParagraph = "";
     var displayText = "";
     resultBlock.id = "resultBlock";
-    console.log("total price 2: " + totalPrice);
+    console.log("total price 2: " + totalCost.toFixed(2));
 
 
     for (var index = 0; index < results.length; index += 1) {
@@ -146,14 +129,103 @@ function displayResults(totalPrice, userEnteredValues) {
         resultBlock.appendChild(resultParagraph);
     }
 
-
+    resultBlock.appendChild(clearButton);
     document.body.appendChild(resultBlock);
 
 }
 
 
+function removeErrors(currentErrors) {
+    "use strict";
+
+    while (currentErrors.length > 0) {
+
+        currentErrors[0].parentNode.removeChild(currentErrors[0]);
+
+    }
+
+}
 
 
+function checkIfInputPresent(userSelectionIds, selectionTypes, messageTexts) {
+    "use strict";
+
+    var message = "";
+    var messageLocation = "";
+    var currentSelection = "";
+    var currentValue = "";
+    var userEnteredValues = [];
+    var h3;
+
+    for (var index = 0; index < userSelectionIds.length; index += 1) {
+
+        h3 = document.createElement("h3");
+        h3.className = "error";
+        currentSelection = userSelectionIds[index];
+        currentValue = document.getElementById(currentSelection).value;
+        message = "";
+        messageLocation = "";
+        userEnteredValues[index] = currentValue;
+
+        if (!currentValue || currentValue === "none") {
+
+
+            message = document.createTextNode("You must indicate "
+                                            + messageTexts[index] + ".");
+
+            messageLocation = document.getElementById(selectionTypes[index]);
+
+            h3.appendChild(message);
+
+            messageLocation.parentNode.insertBefore(h3, messageLocation);
+
+        }
+
+    }
+
+    return userEnteredValues;
+
+}
+
+function checkIfInputIsNumber() {
+    "use strict";
+
+    var squareFootage = document.getElementById("squareFootage").value;
+
+
+    if (isNaN(squareFootage)) {
+
+        var h3 = document.createElement("h3");
+        h3.className = "error";
+        var message = document.createTextNode("Square footage must be a number.");
+        var messageLocation = document.getElementById("footageSelection");
+        h3.appendChild(message);
+        messageLocation.parentNode.insertBefore(h3, messageLocation);
+
+    }
+
+}
+
+
+function clearContents(userSelectionIds) {
+    "use strict";
+
+    removeResults();
+
+    for (var index = 0; index < userSelectionIds.length; index += 1) {
+
+        document.getElementById(userSelectionIds[index]).value = "";
+
+    }
+}
+
+function removeResults() {
+    "use strict";
+
+    var resultBlock = document.getElementById("resultBlock");
+    resultBlock.parentNode.removeChild(resultBlock);
+
+}
 
 
 
