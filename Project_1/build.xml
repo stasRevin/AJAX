@@ -1,4 +1,4 @@
-<project default="deploy_labs">
+<project default="deploy_project">
     <property name="xampp_home" value="/Users/stanislavrevin/.bitnami/stackman/machines/xampp/volumes/root/htdocs"/>
     <property name="project_home" value="${user.dir}"/>
 

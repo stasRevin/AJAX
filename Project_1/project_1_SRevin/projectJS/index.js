@@ -155,12 +155,12 @@ function checkIfInputPresent(userSelectionIds, selectionTypes, messageTexts) {
     var currentSelection = "";
     var currentValue = "";
     var userEnteredValues = [];
-    var h3;
+    var sup;
 
     for (var index = 0; index < userSelectionIds.length; index += 1) {
 
-        h3 = document.createElement("h3");
-        h3.className = "error";
+        sup = document.createElement("sup");
+        sup.className = "error";
         currentSelection = userSelectionIds[index];
         currentValue = document.getElementById(currentSelection).value;
         message = "";
@@ -175,9 +175,9 @@ function checkIfInputPresent(userSelectionIds, selectionTypes, messageTexts) {
 
             messageLocation = document.getElementById(selectionTypes[index]);
 
-            h3.appendChild(message);
+            sup.appendChild(message);
 
-            messageLocation.parentNode.insertBefore(h3, messageLocation);
+            messageLocation.parentNode.insertBefore(sup, messageLocation);
 
         }
 
@@ -195,12 +195,12 @@ function checkIfInputIsNumber() {
 
     if (isNaN(squareFootage)) {
 
-        var h3 = document.createElement("h3");
-        h3.className = "error";
-        var message = document.createTextNode("Square footage must be a number.");
+        var sup = document.createElement("sup");
+        sup.className = "error";
+        var message = document.createTextNode(" Square footage must be a number.");
         var messageLocation = document.getElementById("footageSelection");
-        h3.appendChild(message);
-        messageLocation.parentNode.insertBefore(h3, messageLocation);
+        sup.appendChild(message);
+        messageLocation.parentNode.insertBefore(sup, messageLocation);
 
     }
 
