@@ -13,6 +13,7 @@ function init() {
     btnInline3.onclick = dotNotation;
 
     if (window.addEventListener) {
+
         btnListener1.addEventListener("click", w3c, false);
         btnListener2.addEventListener("click", w3c, false);
         btnListener3.addEventListener("click", w3c, false);

@@ -92,8 +92,6 @@ function calculateTotalPrice(userEnteredValues) {
     totalCost = squareFootage * pricePerSquareFoot;
     totalCost += additionalCost;
 
-    console.log("total price: " + totalCost);
-
     return totalCost;
 
 }
@@ -115,12 +113,10 @@ function displayResults(totalCost, userEnteredValues, userSelectionIds) {
     var resultParagraph = "";
     var displayText = "";
     resultBlock.id = "resultBlock";
-    console.log("total price 2: " + totalCost.toFixed(2));
 
 
     for (var index = 0; index < results.length; index += 1) {
 
-        console.log("results: " + results[index]);
 
         displayText = document.createTextNode(labels[index] + results[index]);
         resultParagraph = document.createElement("p");
