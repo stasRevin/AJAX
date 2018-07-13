@@ -1,0 +1,43 @@
+function init() {
+
+    var students = [
+                        {
+                             "id":111,
+                             "name":"Emily",
+                             "email":"emily@student.edu"
+                        },
+
+                        {
+                            "id":112,
+                            "name:":"Janis",
+                            "email":"janis@student.edu"
+                        },
+
+                        {
+                            "id":113,
+                            "name":"Samantha",
+                            "email":"samantha@student.edu"
+                        },
+
+                        {
+                            "id":114,
+                            "name":"Miguel",
+                            "email":"miguel@student.edu"
+
+                        },
+
+                        {
+                            "id":115,
+                            "name":"Phillip",
+                            "email":"phillip@student.edu"
+                        }
+                    ];
+
+    for (var index = 0; index < students.length; index += 1) {
+
+        console.log("Student ID: " + students[index].id);
+        console.log("Student email: " + students[index].email);
+
+    }
+
+}
