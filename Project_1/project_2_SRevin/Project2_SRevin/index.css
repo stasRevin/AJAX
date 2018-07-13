@@ -1,5 +1,25 @@
 img#temperatureImage {
 
     margin-left: 20px;
+    margin-top: 25px;
+
+}
+
+img#windImage {
+
+    margin-left: 20px;
+    margin-top: 25px;
+
+}
+
+sup#warning {
+
+    color: red;
+}
+
+body {
+
+    background-color: #001f3f;
+    color: #01FF70;
 
 }

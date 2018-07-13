@@ -4,7 +4,13 @@ function init() {
 
     btn.onclick = function() {
 
-        getLocalityInformation();
+        clearResults();
+
+        if (validateInput()){
+
+            getLocalityInformation();
+
+        }
     }
 
 }
@@ -61,14 +67,16 @@ function getWeatherInformation(latitude, longitude, locationName) {
             var result = JSON.parse(xhr.responseText);
 
             var temperatureCelsius = result.weatherObservation.temperature;
-            var windSpeed = result.weatherObservation.windSpeed;
+            var windSpeed = parseInt(result.weatherObservation.windSpeed);
+            var windDirectionDegrees = result.weatherObservation.windDirection;
 
             var temperatureFahrenheit = convertToFahrenheit(temperatureCelsius);
 
             console.log(temperatureFahrenheit.toFixed(1));
             console.log(windSpeed);
 
-            displayResults(locationName, temperatureFahrenheit, windSpeed);
+            displayResults(locationName, temperatureFahrenheit,
+                           windSpeed, windDirectionDegrees);
 
         }
 
@@ -86,11 +94,13 @@ function convertToFahrenheit(temperatureCelsius) {
 
 }
 
-function displayResults(locationName, temperature, windSpeed) {
+function displayResults(locationName, temperature, windSpeed, windDirectionDegrees) {
 
     clearResults();
     var weatherReport = document.createElement("div");
     weatherReport.id = "weatherReport";
+
+    var windDirection = getWindDirection(windDirectionDegrees);
 
     var locationHeader = document.createElement("h2");
     var temperatureHeader = document.createElement("h2");
@@ -98,7 +108,10 @@ function displayResults(locationName, temperature, windSpeed) {
     var temperatureText = document.createTextNode(temperature.toFixed(0)
         + "\u00B0 Fahrenheit");
     var windSpeedHeader = document.createElement("h2");
-    var windSpeedText = document.createTextNode(windSpeed + " mph");
+
+
+    var windSpeedText = document.createTextNode(windSpeed + " mph "
+            + windDirection + " Wind");
 
     locationHeader.appendChild(locationText);
     weatherReport.appendChild(locationHeader);
@@ -109,7 +122,7 @@ function displayResults(locationName, temperature, windSpeed) {
     windSpeedHeader.appendChild(windSpeedText);
     weatherReport.appendChild(windSpeedHeader);
 
-    var image;
+    var image = new Object();
 
     if (temperature >= 83) {
 
@@ -131,7 +144,11 @@ function displayResults(locationName, temperature, windSpeed) {
 
     if (windSpeed > 15) {
 
-        windSpeedHeader.id = "windy";
+        var windImage = document.createElement("img");
+        windImage.src = "images/windy.png";
+        windImage.alt = "strong wind is blowing";
+        windImage.id = "windImage";
+        windSpeedHeader.appendChild(windImage);
     }
     document.body.appendChild(weatherReport);
 
@@ -141,11 +158,82 @@ function displayResults(locationName, temperature, windSpeed) {
 function clearResults() {
 
     var weatherReport = document.getElementById("weatherReport");
+    var warning = document.getElementById("warning");
 
     if (weatherReport) {
 
         weatherReport.parentNode.removeChild(weatherReport);
 
     }
+
+    if (warning) {
+
+        warning.parentNode.removeChild(warning);
+
+    }
+
+
+}
+
+function getWindDirection(directionInput) {
+
+    var windDirection = "";
+
+    //directionInput = "11.25";
+
+    direction = parseFloat(directionInput);
+
+    var directionValues = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+                           "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+
+    var compassSegment = Math.round((direction / 22.5) + 1);
+    //console.log("compass segment: " + compassSegment);
+
+    if (compassSegment > 16) {
+
+        compassSegment = 1;
+
+    }
+
+    windDirection = directionValues[compassSegment - 1];
+
+    //console.log("direction: " + direction);
+    //console.log("Wind direction " + windDirection);
+    return windDirection;
+}
+
+function validateInput() {
+
+    var zipInput = document.getElementById("zipInput");
+    var regExp = /^[0-9]{5}$/;
+
+    if (zipInput.value == "") {
+
+        insertWarning(zipInput, "Please enter a zip code.");
+
+        return false;
+
+    } else if (!regExp.test(zipInput.value)) {
+
+        insertWarning(zipInput, "Zip code must consist of numbers. "
+            + "No more than 5 digits are allowed.");
+
+        return false;
+    }
+
+    return true;
+
+}
+
+
+function insertWarning(zipInput, warningText) {
+
+    var sup = document.createElement("sup");
+    var br = document.createElement("br");
+    sup.id = "warning";
+    var warning = document.createTextNode(warningText);
+    sup.appendChild(warning);
+    sup.appendChild(br);
+    zipInput.parentNode.insertBefore(sup, zipInput);
 
 }
