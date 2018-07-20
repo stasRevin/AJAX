@@ -1,100 +1,71 @@
-function init() {
-
-    var btn = document.getElementById("btnWeather");
-
-    btn.onclick = function() {
-
-        clearResults();
-
-        if (validateInput()){
-
-            getLocalityInformation();
-
-        }
-    }
-
-}
-
-function getLocalityInformation() {
-
-    var zipCode = document.getElementById("zipInput").value;
-    var url = "http://api.geonames.org/postalCodeSearchJSON";
-    var params = "?formatted=true&postalcode=" + zipCode
-        + "&maxRows=1&username=foxnova&style=full";
-
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("get", url + params);
-
-    xhr.onreadystatechange = function() {
-
-        if (xhr.readyState == 4 && xhr.status == 200) {
-
-            var result = JSON.parse(xhr.responseText);
-
-            var latitude = result.postalCodes[0].lat;
-            var longitude = result.postalCodes[0].lng;
-            var locationName = result.postalCodes[0].placeName;
-
-            console.log(latitude);
-            console.log(longitude);
-            console.log(locationName);
-
-            getWeatherInformation(latitude, longitude, locationName);
-
-        }
-
-    }
-
-    xhr.send(null);
-}
-
-
-function getWeatherInformation(latitude, longitude, locationName) {
-
-    var url = "http://api.geonames.org/findNearByWeatherJSON";
-    var params = "?formatted=true&lat=" + latitude
-            + "&lng=" + longitude + "&username=foxnova&style=full";
-
-    var xhr = new XMLHttpRequest();
-
-    xhr.open("get", url + params);
-
-    xhr.onreadystatechange = function() {
-
-        if (xhr.readyState == 4 && xhr.status == 200) {
-
-            var result = JSON.parse(xhr.responseText);
-
-            var temperatureCelsius = result.weatherObservation.temperature;
-            var windSpeed = parseInt(result.weatherObservation.windSpeed);
-            var windDirectionDegrees = result.weatherObservation.windDirection;
-
-            var temperatureFahrenheit = convertToFahrenheit(temperatureCelsius);
-
-            console.log(temperatureFahrenheit.toFixed(1));
-            console.log(windSpeed);
-
-            displayResults(locationName, temperatureFahrenheit,
-                           windSpeed, windDirectionDegrees);
-
-        }
-
-    }
-
-    xhr.send(null);
-
-}
-
 function convertToFahrenheit(temperatureCelsius) {
+    "use strict";
 
     var temperatureFahrenheit = (9/5 * temperatureCelsius) + 32;
 
     return temperatureFahrenheit;
+}
+
+function clearResults() {
+    "use strict";
+
+    var weatherReport = document.getElementById("weatherReport");
+    var warning = document.getElementById("warning");
+
+    if (weatherReport) {
+
+        weatherReport.parentNode.removeChild(weatherReport);
+    }
+
+    if (warning) {
+
+        warning.parentNode.removeChild(warning);
+    }
+}
+
+function insertWarning(zipInput, warningText) {
+    "use strict";
+
+    var sup = document.createElement("sup");
+    var br = document.createElement("br");
+    sup.id = "warning";
+    var warning = document.createTextNode(warningText);
+    sup.appendChild(warning);
+    sup.appendChild(br);
+    zipInput.parentNode.insertBefore(sup, zipInput);
 
 }
 
+function getWindDirection(directionInput) {
+    "use strict";
+
+    var windDirection = "";
+
+    if (directionInput === "" || directionInput === undefined) {
+        return "";
+    }
+
+    var direction = parseFloat(directionInput);
+    console.log("direction: " + direction);
+
+    var directionValues = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+                           "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+
+    var compassSegment = Math.round((direction / 22.5) + 1);
+
+    if (compassSegment > 16) {
+
+        compassSegment = 1;
+    }
+
+    windDirection = directionValues[compassSegment - 1];
+
+    return windDirection;
+}
+
+
 function displayResults(locationName, temperature, windSpeed, windDirectionDegrees) {
+    "use strict";
 
     clearResults();
     var weatherReport = document.createElement("div");
@@ -122,7 +93,7 @@ function displayResults(locationName, temperature, windSpeed, windDirectionDegre
     windSpeedHeader.appendChild(windSpeedText);
     weatherReport.appendChild(windSpeedHeader);
 
-    var image = new Object();
+    var image;
 
     if (temperature >= 83) {
 
@@ -139,7 +110,6 @@ function displayResults(locationName, temperature, windSpeed, windDirectionDegre
         image.alt = "hot weather";
         image.id = "temperatureImage";
         temperatureHeader.appendChild(image);
-
     }
 
     if (windSpeed > 15) {
@@ -151,89 +121,107 @@ function displayResults(locationName, temperature, windSpeed, windDirectionDegre
         windSpeedHeader.appendChild(windImage);
     }
     document.body.appendChild(weatherReport);
-
 }
 
 
-function clearResults() {
+function getWeatherInformation(latitude, longitude, locationName) {
+    "use strict";
 
-    var weatherReport = document.getElementById("weatherReport");
-    var warning = document.getElementById("warning");
+    var url = "http://api.geonames.org/findNearByWeatherJSON";
+    var params = "?formatted=true&lat=" + latitude
+            + "&lng=" + longitude + "&username=foxnova&style=full";
 
-    if (weatherReport) {
+    var xhr = new XMLHttpRequest();
 
-        weatherReport.parentNode.removeChild(weatherReport);
+    xhr.open("get", url + params);
 
-    }
+    xhr.onreadystatechange = function() {
 
-    if (warning) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
 
-        warning.parentNode.removeChild(warning);
+            var result = JSON.parse(xhr.responseText);
 
-    }
+            var temperatureCelsius = result.weatherObservation.temperature;
+            var windSpeed = parseInt(result.weatherObservation.windSpeed);
+            var windDirectionDegrees = result.weatherObservation.windDirection;
 
+            var temperatureFahrenheit = convertToFahrenheit(temperatureCelsius);
 
+            displayResults(locationName, temperatureFahrenheit,
+                           windSpeed, windDirectionDegrees);
+        }
+    };
+
+    xhr.send(null);
 }
 
-function getWindDirection(directionInput) {
+function getLocalityInformation() {
+    "use strict";
 
-    var windDirection = "";
+    var zipCode = document.getElementById("zipInput").value;
+    var url = "http://api.geonames.org/postalCodeSearchJSON";
+    var params = "?formatted=true&postalcode=" + zipCode
+        + "&maxRows=1&username=foxnova&style=full";
 
-    //directionInput = "11.25";
+    var xhr = new XMLHttpRequest();
 
-    direction = parseFloat(directionInput);
+    xhr.open("get", url + params);
 
-    var directionValues = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
-                           "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    xhr.onreadystatechange = function() {
 
-    var compassSegment = Math.round((direction / 22.5) + 1);
-    //console.log("compass segment: " + compassSegment);
+        if (xhr.readyState === 4 && xhr.status === 200) {
 
-    if (compassSegment > 16) {
+            var result = JSON.parse(xhr.responseText);
 
-        compassSegment = 1;
 
-    }
+            var latitude = result.postalCodes[0].lat;
+            var longitude = result.postalCodes[0].lng;
+            var locationName = result.postalCodes[0].placeName;
 
-    windDirection = directionValues[compassSegment - 1];
+            getWeatherInformation(latitude, longitude, locationName);
+        }
 
-    //console.log("direction: " + direction);
-    //console.log("Wind direction " + windDirection);
-    return windDirection;
+    };
+    xhr.send(null);
 }
+
 
 function validateInput() {
+    "use strict";
 
     var zipInput = document.getElementById("zipInput");
     var regExp = /^[0-9]{5}$/;
 
-    if (zipInput.value == "") {
+    if (zipInput.value === "") {
 
         insertWarning(zipInput, "Please enter a zip code.");
-
-        return false;
-
-    } else if (!regExp.test(zipInput.value)) {
-
-        insertWarning(zipInput, "Zip code must consist of numbers. "
-            + "No more than 5 digits are allowed.");
-
         return false;
     }
 
-    return true;
+    if (!regExp.test(zipInput.value)) {
 
+        insertWarning(zipInput, "The service is currently offered to the US customers only."
+                + " Zip Code must be a valid zip code and consist of 5 digits.");
+
+        return false;
+    }
+    return true;
 }
 
 
-function insertWarning(zipInput, warningText) {
+function init() {
+    "use strict";
 
-    var sup = document.createElement("sup");
-    var br = document.createElement("br");
-    sup.id = "warning";
-    var warning = document.createTextNode(warningText);
-    sup.appendChild(warning);
-    sup.appendChild(br);
-    zipInput.parentNode.insertBefore(sup, zipInput);
+    var btn = document.getElementById("btnWeather");
 
+    btn.onclick = function() {
+
+        clearResults();
+
+        if (validateInput()){
+
+            getLocalityInformation();
+
+        }
+    };
 }
