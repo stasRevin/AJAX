@@ -1,7 +1,43 @@
 $(document).ready(function() {
 
-    var ul = $("<table id='taskList'></table>");
-    $("body").append(ul);
+    function removeErrors() {
+
+        $(".error").remove();
+    }
+
+    function removeNoTasksMessage() {
+
+        $(".noTasksMessage").remove();
+    }
+
+
+    function appendNoTasksMessage() {
+
+        $("body").append("<p class='noTasksMessage'>You have no tasks to do. Click on the \"Add task\" button to add a task.</p>");
+
+    }
+
+    function validateUserInput(description) {
+
+        console.log("desc: " + description);
+        removeErrors();
+
+        if (description === null || description === "" || description.length > 30) {
+
+            $("#taskInput").before("<sup class='error'> The task cannot be blank or more than 30 characters long.<br/></sup>");
+            return false;
+
+        }
+        return true;
+    }
+
+
+    removeErrors();
+
+    var table = $("<table id='taskList'></table>");
+    $("body").append(table);
+
+
 
     $.get("/project3_SRevin/ToDo/allTasks.php", function(response) {
 
@@ -14,9 +50,26 @@ $(document).ready(function() {
 
             addTaskRow(id, text);
 
-        })
+        });
+
+        checkForNoTaskMessage();
 
     }, "xml");
+
+
+    function checkForNoTaskMessage() {
+
+        console.log("tasks length: " + $(".task").length);
+        if ($(".task").length === 0) {
+
+            appendNoTasksMessage();
+
+        } else {
+
+            removeNoTasksMessage();
+        }
+
+    }
 
 
     function deleteTask(idInput) {
@@ -26,7 +79,7 @@ $(document).ready(function() {
         console.log("id: " + id);
 
         $.ajax({
-            url: "/project3_SRevin/ToDo/deletTask.php",
+            url: "/project3_SRevin/ToDo/deleteTask.php",
             data: {"id":id},
             success: function(rowsDeleted) {
 
@@ -35,13 +88,14 @@ $(document).ready(function() {
                         removeTaskFromPage(id);
 
                      },
-            error: function(request, error, status) {
+            error: function(request, status, error) {
 
                         console.log("error: " + error);
                         console.log("status: " + status);
 
-                    }
+                        displayWarning(error, id);
 
+                    }
 
         });
 
@@ -50,17 +104,21 @@ $(document).ready(function() {
 
     $("#addTask").click(function() {
 
-        addTask($("#taskInput").val());
+        if (validateUserInput($("#taskInput").val())) {
+
+            addTask($("#taskInput").val());
+        }
 
     })
 
 
     function addTask(description) {
 
+
         $.get("/project3_SRevin/ToDo/addTask.php", {"description":description}, function(task) {
 
             console.log("task added id: " + task.id);
-
+            removeNoTasksMessage();
             addTaskRow(task.id, description);
 
         }, "json")
@@ -69,7 +127,7 @@ $(document).ready(function() {
 
     function addTaskRow(id, text) {
 
-        $("#taskList").append($("<tr id='" + id + "'></tr>"));
+        $("#taskList").append($("<tr id='" + id + "' class='task'></tr>"));
         $("tr").last().append("<td></td>");
         $("td").last().append(text);
         $("tr").last().append("<td></td>");
@@ -80,13 +138,27 @@ $(document).ready(function() {
             deleteTask(id);
           });
 
+
     }
 
     function removeTaskFromPage(id) {
 
+
         $("tr#" + id).remove();
+
+        if ($(".task").length === 0) {
+
+            appendNoTasksMessage();
+        }
 
     }
 
+    function displayWarning(status, id) {
+
+        removeErrors();
+        $("#" + id).append("<td class='error'> The task was not deleted. The following error has occurred: "
+                + status + "</td>");
+
+    }
 })
 
