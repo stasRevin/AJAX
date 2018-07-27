@@ -17,12 +17,10 @@
 
         $("ul").on("mouseover", "li", function() {
             $(this).css("backgroundColor", "yellow");
-            console.log("mouse over");
         });
 
         $("ul").on("mouseout", "li", function() {
             $(this).css("backgroundColor", "white");
-            console.log("mouse out");
         });
 
         $("ul").append($("<li>new task</li>"));
@@ -35,7 +33,7 @@
 
         });
 
-    });
+    })
 
 
-})(jQuery);
+})(jQuery)

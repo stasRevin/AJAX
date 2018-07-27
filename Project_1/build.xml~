@@ -10,7 +10,7 @@
 
     <target name="deploy_project">
         <copy todir="${xampp_home}">
-            <fileset dir="${project_home}/project_1_SRevin"/>
+            <fileset dir="${project_home}/project_3_SRevin"/>
         </copy>
     </target>
 </project>
