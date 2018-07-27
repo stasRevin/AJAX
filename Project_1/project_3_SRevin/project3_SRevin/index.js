@@ -25,9 +25,23 @@ $(document).ready(function() {
 
         console.log("id: " + id);
 
-        $.get("/project3_SRevin/ToDo/deleteTask.php", {"id":id}, function(rowsDeleted) {
+        $.ajax({
+            url: "/project3_SRevin/ToDo/deletTask.php",
+            data: {"id":id},
+            success: function(rowsDeleted) {
 
-            console.log("rows deleted: " + rowsDeleted);
+                        console.log("rows deleted: " + rowsDeleted);
+
+                        removeTaskFromPage(id);
+
+                     },
+            error: function(request, error, status) {
+
+                        console.log("error: " + error);
+                        console.log("status: " + status);
+
+                    }
+
 
         });
 
@@ -59,21 +73,20 @@ $(document).ready(function() {
         $("tr").last().append("<td></td>");
         $("td").last().append(text);
         $("tr").last().append("<td></td>");
-        $("td").last().append("<input type='button' id='delete_" + id + "' value='delete'/>");
+        $("td").last().append("<img src='images/trashCan.png' alt='trash can icon' class='deleteButton' id='delete_" + id + "'>");
 
         $("#delete_" + id).click(function() {
 
-            $("tr#" + id).remove();
             deleteTask(id);
-
-        });
+          });
 
     }
 
+    function removeTaskFromPage(id) {
 
+        $("tr#" + id).remove();
 
-
-
+    }
 
 })
 
