@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plugin Two</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="pluginTwo.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="Animating-Numbers-Counting-Up-with-jQuery-Counter-Up-Plugin/jquery.counterup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+    <script type="text/javascript" src="pluginTwo.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header col-12">
+        <h1>Stanislav Revin</h1>
+        <h2>Counter Up Plugin</h2>
+      </div>
+      <div class="row">
+        <div class="main_content col-12">
+          <span class=".integers">12345</span>
+          <span class=".floats">123.45</span>
+          <span class=".numbers-with-commas">12,345.00</span>
+        </div>
+        <div class="description col-12">
+          <p>
+            This plugin counts up to a targeted number at a specified speed.
+          </p>
+          <p>
+            In this example, the values are hardcoded, just refresh the page to see the counter in action.
+          </p>
+        </div>
+        <div class="source col-12">
+          <p>
+            This plugin was downloaded from
+            <a href="https://www.jqueryscript.net/animation/Animating-Numbers-Counting-Up-with-jQuery-Counter-Up-Plugin.html"
+             target="_blank">here.</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

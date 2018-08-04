@@ -1,0 +1,86 @@
+* {
+
+    box-sizing: border-box;
+}
+
+body {
+
+    background-color: #667292;
+    color: #50394c;
+
+}
+
+.container {
+
+    margin: 0 auto;
+    text-align: center;
+    background-color: #f1e3dd;
+    width: 80%;
+    box-shadow: 20px 20px 50px 90px #667292 inset;
+
+}
+
+
+.row:after {
+
+    content: "";
+    clear: both;
+    display: table;
+}
+
+[class*="col-"] {
+
+    float: left;
+    padding: 15px;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+.main_content {
+
+    overflow-x: auto;
+}
+
+#myTable {
+
+    border-collapse: collapse;
+}
+
+#myTable thead th {
+    background-color: #bccad6;
+
+}
+
+
+#hdmyTable {
+    background-color: #bccad6;
+
+
+}
+
+#myTable tbody td {
+
+    border: solid 1px #bccad6;
+    color: #333;
+    padding: 10px;
+    text-shadow: 1px 1px 1px #fff;
+
+}
+
+#hdScrollmyTable {
+
+    width: 40%;
+    margin: 0 auto;
+
+}
