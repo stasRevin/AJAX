@@ -13,11 +13,11 @@
     <div class="container">
       <div class="header col-12">
           <ul>
-            <li><a href="pluginOne.html">Table2excel Plugin</a></li>
-            <li><a href="pluginTwo.html">Counter Up Plugin</a></li>
-            <li><a href="pluginThree.html">Freezeheader Plugin</a></li>
-            <li><a href="pluginFour.html">International Telephone Input Plugin</a></li>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="../pluginOne/pluginOne.html">Table2excel Plugin</a></li>
+            <li><a href="../pluginTwo/pluginTwo.html">Counter Up Plugin</a></li>
+            <li><a href="../pluginThree/pluginThree.html">Freezeheader Plugin</a></li>
+            <li><a href="../pluginFour/pluginFour.html">International Telephone Input Plugin</a></li>
+            <li><a href="../index.html">Home</a></li>
           </ul>
         <h1>Stanislav Revin</h1>
         <h2>table2excel plugin</h2>
@@ -54,7 +54,7 @@
            </p>
            <p>
             The file will not have
-            an Excel extension, therefore you will need to explicilty open it with MS Excel.
+            an Excel extension, therefore you will need to explicitly open it with MS Excel.
           </p>
 
 

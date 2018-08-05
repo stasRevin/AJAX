@@ -5,7 +5,7 @@
 
 body {
 
-    background-color: #f0efef;
+    background-color: #f9d5e5;
     color: #50394c;
 
 }
@@ -14,9 +14,9 @@ body {
 
     margin: 0 auto;
     text-align: center;
-    background-color: #ddeedd;
+    background-color: #b7d7e8;
     width: 80%;
-    box-shadow: 20px 20px 50px 90px #f0efef inset;
+    box-shadow: 20px 20px 50px 90px #f9d5e5 inset;
 }
 
 .row:after {
@@ -63,13 +63,14 @@ body {
 
 ul {
 
+    width: 70%;
     list-style-type: none;
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
-    background-color: #c2d4dd;
+    background-color: #92a8d1;
     border-radius: 12px;
-    width: 70%;
+    box-shadow: 20px 20px 60px 2px #daebe8 inset;
 }
 
 li {
@@ -80,7 +81,7 @@ li {
 li a {
 
     display: block;
-    color: #3b3a30;
+    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -89,6 +90,10 @@ li a {
 
 li a:hover {
 
-    background-color: #d5f4e6;
+    background-color: #80ced6;
 
 }
+
+
+
+

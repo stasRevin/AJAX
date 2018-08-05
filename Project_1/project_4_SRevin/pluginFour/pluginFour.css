@@ -61,34 +61,37 @@ body {
 
 }
 
-ul {
+.menu {
 
+    width: 70%;
     list-style-type: none;
     margin: 0 auto;
     padding: 0;
     overflow: hidden;
-    background-color: #c2d4dd;
+    background-color: #86af49;
     border-radius: 12px;
-    width: 70%;
+    box-shadow: 20px 20px 60px 2px #f0efef inset;
 }
 
-li {
+.menu-item {
     float: left;
 
 }
 
-li a {
+.menu-item a {
 
     display: block;
-    color: #3b3a30;
+    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 
 }
 
-li a:hover {
+.menu-item a:hover {
 
-    background-color: #d5f4e6;
+    background-color: #b5e7a0;
 
 }
+
+
